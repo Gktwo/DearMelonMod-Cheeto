@@ -1,5 +1,6 @@
 ﻿
 using HarmonyLib;
+using MelonLoader;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -7,45 +8,88 @@ using UnityEngine;
 
 namespace CheatBase
 {
-    public static  class CheatBase
+    public static class CheatBase
     {
 
         //patch=install/uninstall,HarmonyMethod=prefix/postfix, type:typeof(class),Methodname:Original Method name, mymethodclass:typeof(class),mymethodName:patch method name
-        static bool PatchMethod(bool patch, String HarmonyMethod, Type type, String Methodname, Type mymethodclass = null, String mymethodName = null)
+        static bool PatchPre(bool patch, Type originalClass, string methodName, Type myMethodClass = null, string myMethodName = null)
         {
             var harmony = new HarmonyLib.Harmony("harmony");
 
-
-            MethodInfo original = AccessTools.Method(type, Methodname);
+            MethodInfo original = AccessTools.Method(originalClass, methodName);
             if (original == null)
             {
-                
-                Debug.LogError($"Method {Methodname} not found in {type}");
+                MelonLogger.Error($"Method {methodName} not found in {originalClass}");
                 return false;
             }
 
-            if (patch)
+            try
             {
-
-                if (HarmonyMethod == "prefix")
+                if (patch)
                 {
                     harmony.Patch(
-                    original: AccessTools.Method(type, Methodname),//hook
-                    prefix: new HarmonyMethod(mymethodclass, mymethodName)//patch
-                 );
+                        original: original,
+                        prefix: new HarmonyMethod(myMethodClass, myMethodName)
+                    );
+                    MelonLogger.Msg($"Patched method {methodName} with prefix in {originalClass}");
+
+                    return true;
                 }
-                return true;
-            }
-            else//unpatch
-            {
-                if (HarmonyMethod == "prefix")
+                else
                 {
                     harmony.Unpatch(
-                    original: AccessTools.Method(type, Methodname),
-                    HarmonyPatchType.Prefix,
-                    harmony.Id
-                );
+                        original: original,
+                        HarmonyPatchType.Prefix,
+                        harmony.Id
+                    );
+                    MelonLogger.Msg($"Unpatched method {methodName} with prefix in {originalClass}");
+
+                    return false;
                 }
+            }
+            catch (Exception ex)
+            {
+                MelonLogger.Error($"Error while hook method {methodName} in {originalClass}: {ex.Message}");
+                return false;
+            }
+        }
+        public static bool PatchPost(bool patch, Type originalClass, string methodName, Type myMethodClass = null, string myMethodName = null)
+        {
+            var harmony = new HarmonyLib.Harmony("harmony");
+            MethodInfo original = AccessTools.Method(originalClass, methodName);
+            if (original == null)
+            {
+                MelonLogger.Error($"Method {methodName} not found in {originalClass}");
+                return false;
+            }
+
+            try
+            {
+                if (patch)
+                {
+                    harmony.Patch(
+                        original: original,
+                        postfix: new HarmonyMethod(myMethodClass, myMethodName)
+                    );
+                    MelonLogger.Msg($"Patched method {methodName} with postfix in {originalClass}");
+
+                    return true;
+                }
+                else
+                {
+                    harmony.Unpatch(
+                        original: original,
+                        HarmonyPatchType.Postfix,
+                        harmony.Id
+                    );
+                    MelonLogger.Msg($"Unpatched method {methodName} with postfix in {originalClass}");
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MelonLogger.Error($"Error while hooking method {methodName} in {originalClass}: {ex.Message}");
                 return false;
             }
         }

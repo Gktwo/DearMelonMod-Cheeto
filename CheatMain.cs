@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace DmmModMain
 {
-    public class Main2 : MonoBehaviour
+    public class CheatMain : MonoBehaviour
     {
         //public Main2(global::System.IntPtr ptr)
         //: base(ptr)
