@@ -10,6 +10,9 @@ namespace DmmCheat
     public class Loader : MelonMod
     {
         public CheatGui cheatGui;
+
+        public static MelonLogger.Instance CheatLogger;
+
         public override void OnApplicationStart()
         {
             ClassInjector.RegisterTypeInIl2Cpp<CheatGui>();

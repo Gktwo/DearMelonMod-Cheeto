@@ -68,12 +68,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>G:\game\dmm\Twinkle_StarKnightsX\MelonLoader\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>G:\game\dmm\Twinkle_StarKnightsX\MelonLoader\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheatGui.cs" />
     <Compile Include="CheatMain.cs" />
     <Compile Include="CheatBase.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="functions\BattleNoteManager.cs" />
+    <Compile Include="functions\DemageHack.cs" />
+    <Compile Include="functions\Energy.cs" />
+    <Compile Include="functions\FPSUnlocker.cs" />
+    <Compile Include="functions\Godmode.cs" />
+    <Compile Include="functions\NoCD.cs" />
+    <Compile Include="functions\TimeScale.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

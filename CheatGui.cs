@@ -1,5 +1,8 @@
 ﻿using UnhollowerRuntimeLib;
 using UnityEngine;
+using MelonLoader;
+using DmmCheatMod.functions;
+using DmmCheat;
 
 public class CheatGui : MonoBehaviour
 {
@@ -17,20 +20,22 @@ public class CheatGui : MonoBehaviour
     private Rect windowRect = new Rect(200, 200, 400, 400);
     private bool windowVisible = true;
     private int currentLayout = 0;
+    private bool godmode = false;
 
     public void OnUpdate()
     {
         if (Input.GetKeyUp(KeyCode.F11)) // 检查F11键是否被按下
         {
             windowVisible = !windowVisible; // 切换窗口的显示
-            Debug.Log("CheatWindow:" + windowVisible);
+            MelonLogger.Msg("CheatWindow:" + windowVisible);
+
         }
     }
     public void OnGUI()
     {
         if (windowVisible)
         {
-            windowRect=GUI.Window(0, windowRect, new global::System.Action<int>(MyWindow), "DMM Melon Cheeto  Ver0.01");
+            windowRect = GUI.Window(0, windowRect, new global::System.Action<int>(MyWindow), "DMM Melon Cheeto  Ver0.01");
         }
     }
 
@@ -41,32 +46,46 @@ public class CheatGui : MonoBehaviour
         float buttonHeight = 30;
         float spacing = 10;
         GUI.DragWindow(new Rect(0, 0, windowRect.width, 30));
-        for (int i = 0; i < 4; i++)
+
+
+        if (GUI.Button(new Rect(15 + (buttonWidth + spacing) * 1, 30, buttonWidth, buttonHeight), "玩家"))
         {
-            if (GUI.Button(new Rect(15 + (buttonWidth + spacing) * i, 30, buttonWidth, buttonHeight), $"按钮 {i + 1}"))
-            {
-                currentLayout = i; // 切换布局
-            }
+            currentLayout = 0; // 切换布局
+        }
+        if (GUI.Button(new Rect(15 + (buttonWidth + spacing) * 2, 30, buttonWidth, buttonHeight), "世界"))
+        {
+            currentLayout = 1; // 切换布局
         }
 
+       
         // 根据当前布局显示不同内容
-        GUI.Label(new Rect(15, 70, 250, 30), $"当前页面: {currentLayout + 1}");
+        GUI.Label(new Rect(15, 70, 400, 30), new string('-', 30 * 3));
         switch (currentLayout)
         {
             case 0:
-                GUI.Label(new Rect(15, 100, 250, 30), "这是页面 1");
+                player();
+
                 break;
             case 1:
                 GUI.Label(new Rect(15, 100, 250, 30), "这是页面 2");
                 break;
-            case 2:
-                GUI.Label(new Rect(15, 100, 250, 30), "这是页面 3");
-                break;
-            case 3:
-                GUI.Label(new Rect(15, 100, 250, 30), "这是页面 4");
+            default:
                 break;
         }
-       
+
+
+    }
+
+    private void player()
+    {
+        Godmode.godmode = GUI.Toggle(new Rect(15, 130, 250, 30), godmode, "无敌模式");
+        if (Godmode.godmode != godmode)
+        {
+            godmode = !godmode;
+            Godmode.Patch();
+        }
+
+       // GUI.Toggle(new Rect(15, 160, 250, 30), Godmode.godmode, "倍数伤害");
 
     }
 }
