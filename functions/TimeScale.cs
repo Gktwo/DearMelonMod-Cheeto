@@ -1,48 +1,39 @@
 ﻿using UnityEngine;
 using MelonLoader;
+using DmmCheatMod.GuiUtil;
 
 namespace DmmCheatMod.functions
 {
-    public static class TimeScale
+    internal static class TimeScale
     {
 
         public static bool timescale = false;
-        public static bool timescale2 = false;
-
         public static float rate = 1.0f;
-        public static float rate2 = 1.0f;
-        public static void SetTimeScale()
+
+        public static void Gui(Rect pos, Rect pos2)
         {
-            if (timescale != timescale2)
+            if (Widget.Checkbox("时间膨胀", pos, ref TimeScale.timescale))
             {
-                if (timescale)
+                if (TimeScale.timescale)
                 {
                     Set();
-                    timescale2 = timescale;
                 }
                 else
                 {
-                    UnityEngine.Time.timeScale = 1.0f;
-                    MelonLogger.Msg("[TimeScale]Set to: 1.00");
-                    timescale2 = timescale;
-                    rate = 1.0f;
-                    rate2 = 1.0f;
+                    TimeScale.rate = 1.0f;
+                    Set();
                 }
 
             }
-            else if (timescale&&rate != rate2)
+            if (Widget.FloatHSlider(pos2, ref rate, 1.0f, 15.0f) && TimeScale.timescale)
             {
                 Set();
-                rate2 = rate;
-
             }
-            
-
         }
         private static void Set()
         {
             UnityEngine.Time.timeScale = rate;
-            MelonLogger.Msg("[TimeScale]Set to: "+rate.ToString("F2"));
+            MelonLogger.Msg("[TimeScale]Set to: "+rate.ToString("F1"));
         }
     }
 }

@@ -29,10 +29,10 @@ public class CheatGui : MonoBehaviour
     //WORLD
     private bool fpsunlocker = false;
     private bool timescale = false;
-    private float deltaTime = 0.0f;
+    //private float deltaTime = 0.0f;
     public void Update()
     {
-        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+       // deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         if (Input.GetKeyUp(KeyCode.F11)) // 检查F11键是否被按下
         {
             windowVisible = !windowVisible; // 切换窗口的显示
@@ -111,21 +111,13 @@ public class CheatGui : MonoBehaviour
     private void World()
     {
         //// 将控件位置调整到内容框内
-        //FPSUnlocker.fpsunlocker = GUI.Toggle(new Rect(20, 160, 100, 30), fpsunlocker, "FPS解锁");
-        //GUI.Label(new Rect(180, 160, 100, 30), "当前帧率:" + (1.0f / deltaTime).ToString("F2"));
-        //GUI.Label(new Rect(280, 160, 100, 30), "目标帧率" + FPSUnlocker.fps.ToString("F2"));
-        //FPSUnlocker.fps = GUI.HorizontalSlider(new Rect(20, 190, windowRect.width - 40, 30), FPSUnlocker.fps, 30.0f, 360.0f);
 
+        //fps解锁
         FPSUnlocker.Gui(new Rect(20, 160, 100, 30), new Rect(20, 190, 200, 30));
+        //时间膨胀
+        TimeScale.Gui(new Rect(20, 220, 100, 30), new Rect(20, 250, 200, 30));
 
 
-
-        //TimeScale.timescale = GUI.Toggle(new Rect(20, 220, 100, 30), TimeScale.timescale2, "时间加速");
-        //GUI.Label(new Rect(280, 220, 100, 30), "当前倍速:" + TimeScale.rate.ToString("F2"));
-        //TimeScale.rate = GUI.HorizontalSlider(new Rect(20, 250, windowRect.width - 40, 30), TimeScale.rate2, 0.1f, 10.0f);
-
-
-        //TimeScale.SetTimeScale();
 
     }
 

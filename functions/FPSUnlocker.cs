@@ -4,7 +4,7 @@ using DmmCheatMod.GuiUtil;
 
 namespace DmmCheatMod.functions
 {
-    public static class FPSUnlocker
+    internal static class FPSUnlocker
     {
         public static bool fpsunlocker = false;
         public static int fps = 60;
@@ -24,15 +24,15 @@ namespace DmmCheatMod.functions
                 }
 
             }
-            if (Widget.IntHSlider(pos2, ref fps, 30, 360)&& FPSUnlocker.fpsunlocker)
+            if (Widget.IntHSlider(pos2, ref fps, 30, 360) && FPSUnlocker.fpsunlocker)
             {
                 Set();
             }
         }
         public static void Set()
         {
-            MelonLogger.Msg("[FPSUnlocker]Set to " + fps.ToString());
             UnityEngine.Application.targetFrameRate = (int)fps;
+            MelonLogger.Msg("[FPSUnlocker]Set to " + fps.ToString());
         }
     }
 }
