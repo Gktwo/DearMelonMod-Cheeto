@@ -32,7 +32,7 @@ public class CheatGui : MonoBehaviour
     //private float deltaTime = 0.0f;
     public void Update()
     {
-       // deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        // deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         if (Input.GetKeyUp(KeyCode.F11)) // 检查F11键是否被按下
         {
             windowVisible = !windowVisible; // 切换窗口的显示
@@ -62,8 +62,8 @@ public class CheatGui : MonoBehaviour
         GUI.Box(new Rect(10, 30, windowRect.width - 20, 100), "菜单");
 
         // 定义按钮和布局的关联
-        string[] buttonNames = { "关于", "玩家", "世界" };
-        int[] layoutIndices = { 0, 1, 2 };
+        string[] buttonNames = { "关于", "玩家", "世界", "视觉" };
+        int[] layoutIndices = { 0, 1, 2, 3 };
 
         // 循环创建按钮（显示在 Box 内）
         for (int i = 0; i < buttonNames.Length; i++)
@@ -75,7 +75,7 @@ public class CheatGui : MonoBehaviour
         }
 
         // 绘制一个 Box 来包含内容
-        GUI.Box(new Rect(10, 140, windowRect.width - 20, windowRect.height - 150), "内容");
+        GUI.Box(new Rect(10, 140, windowRect.width - 20, windowRect.height - 150), buttonNames[currentLayout]);
 
         // 根据当前布局显示不同内容
         switch (currentLayout)
@@ -88,6 +88,9 @@ public class CheatGui : MonoBehaviour
                 break;
             case 2:
                 World();
+                break;
+            case 3:
+                Visual();
                 break;
             default:
                 About();
@@ -106,19 +109,23 @@ public class CheatGui : MonoBehaviour
         // 此处可以放置玩家相关的内容
     }
 
-    
+
 
     private void World()
     {
         //// 将控件位置调整到内容框内
 
-        //fps解锁
-        FPSUnlocker.Gui(new Rect(20, 160, 100, 30), new Rect(20, 190, 200, 30));
+
         //时间膨胀
-        TimeScale.Gui(new Rect(20, 220, 100, 30), new Rect(20, 250, 200, 30));
+        TimeScale.Gui(new Rect(20, 160, 100, 30), new Rect(20, 190, 200, 30));
 
 
 
     }
 
+    private void Visual()
+    {
+        //fps解锁
+        FPSUnlocker.Gui(new Rect(20, 160, 100, 30), new Rect(20, 190, 200, 30));
+    }
 }
